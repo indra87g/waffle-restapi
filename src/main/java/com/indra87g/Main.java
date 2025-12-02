@@ -1,52 +1,36 @@
 package com.indra87g;
 
-import cn.nukkit.block.Block;
-import cn.nukkit.level.Level;
-import cn.nukkit.math.Vector3;
+import com.indra87g.api.ApiService;
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.command.Command;
-import cn.nukkit.command.CommandSender;
-import cn.nukkit.Player;
+import cn.nukkit.utils.Config;
+
+import java.io.IOException;
 
 public class Main extends PluginBase {
+
+    private ApiService apiService;
 
     @Override
     public void onEnable() {
         getLogger().info("plugin activated!");
+        saveDefaultConfig();
+        Config config = getConfig();
+        int port = config.getInt("port", 8080);
 
-        this.getServer().getCommandMap().register("setblock", new Command("setblock") {
-            @Override
-            public boolean execute(CommandSender sender, String label, String[] args) {
-                if (!(sender instanceof Player)) {
-                    sender.sendMessage("This command can only be used by player.");
-                    return false;
-                }
+        apiService = new ApiService(this.getServer(), port);
+        try {
+            apiService.start();
+            getLogger().info("REST API server started on port " + port);
+        } catch (IOException e) {
+            getLogger().error("Failed to start REST API server", e);
+        }
+    }
 
-                Player player = (Player) sender;
-                Level level = player.getLevel();
-
-                if (args.length != 4) {
-                    player.sendMessage("§cusage: /setblock <x> <y> <z> <block_id>");
-                    return false;
-                }
-
-                try {
-                    int x = Integer.parseInt(args[0]);
-                    int y = Integer.parseInt(args[1]);
-                    int z = Integer.parseInt(args[2]);
-                    int blockId = Integer.parseInt(args[3]);
-
-                    Vector3 pos = new Vector3(x, y, z);
-                    Block block = Block.get(blockId);
-
-                    level.setBlock(pos, block);
-                    player.sendMessage("§aBlock " + block.getName() + " successfully placed in  (" + x + ", " + y + ", " + z + ")");
-                } catch (NumberFormatException e) {
-                    player.sendMessage("§cMake sure all arguments are valid numbers. ");
-                }
-
-                return true;
-            }
-        });
+    @Override
+    public void onDisable() {
+        if (apiService != null) {
+            apiService.stop();
+            getLogger().info("REST API server stopped");
+        }
     }
 }

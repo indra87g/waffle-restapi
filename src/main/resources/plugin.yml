@@ -1,6 +1,6 @@
-name: ContohPlugin
+name: Waffle Rest API
 main: com.indra87g.Main
-version: 0.1.0
+version: 1.0.0
 api: 1.0.0
 author: indra87g
-description: Plugin Nukkit dari GitHub Actions
+description: A Nukkit plugin that provides a REST API for server information.
