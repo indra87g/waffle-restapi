@@ -16,8 +16,9 @@ public class Main extends PluginBase {
         saveDefaultConfig();
         Config config = getConfig();
         int port = config.getInt("port", 8080);
+        int updateInterval = config.getInt("update-interval-seconds", 10);
 
-        apiService = new ApiService(this.getServer(), port);
+        apiService = new ApiService(this.getServer(), port, updateInterval);
         try {
             apiService.start();
             getLogger().info("REST API server started on port " + port);
