@@ -70,7 +70,7 @@ public class ApiService {
     class MyHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-            File indexFile = new File(nukkitServer.getPluginPath() + "/ContohPlugin/index.html");
+            File indexFile = new File(nukkitServer.getPluginPath() + "index.html");
             String response;
             if (indexFile.exists()) {
                 response = new String(Files.readAllBytes(Paths.get(indexFile.toURI())));
