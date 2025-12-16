@@ -1,2 +1,6 @@
 # The port for the REST API server
 port: 8080
+# The folder to store uploaded files
+drop-folder: "uploads"
+# The maximum file size for uploads in MB
+max-file-size: 10
