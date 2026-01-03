@@ -17,10 +17,8 @@ public class Main extends PluginBase {
         Config config = getConfig();
         int port = config.getInt("port", 8080);
         int updateInterval = config.getInt("update-interval-seconds", 10);
-        String dropFolder = config.getString("drop-folder", "uploads");
-        int maxFileSize = config.getInt("max-file-size", 10);
 
-        apiService = new ApiService(this.getServer(), port, updateInterval, dropFolder, maxFileSize);
+        apiService = new ApiService(this.getServer(), config, port, updateInterval);
         try {
             apiService.start();
             getLogger().info("REST API server started on port " + port);
