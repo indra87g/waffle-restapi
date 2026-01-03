@@ -4,3 +4,11 @@ port: 8080
 drop-folder: "uploads"
 # The maximum file size for uploads in MB
 max-file-size: 10
+# API key settings
+api-key:
+  enabled: false
+  key: "your-secret-api-key"
+  protected-endpoints:
+    - "/players"
+    - "/server"
+    - "/drop"
